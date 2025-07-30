@@ -58,4 +58,28 @@ GET http://localhost:8080/api/v1/demo-controller
 # @name accessSecuredWithToken
 GET http://localhost:8080/api/v1/demo-controller
 # 这里的 <PASTE_YOUR_TOKEN_HERE> 需要手动替换
-Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+
+### -------------------------------------------
+### 7. 创建一个新任务 (带Token, 预期成功)
+# @name createTask
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+
+{
+  "title": "学习 Spring Boot",
+  "timeInterval": "EVENING",
+  "timingMode": "FORWARD",
+  "targetMinutes": 120,
+  "targetCount": 0
+}
+
+
+### -------------------------------------------
+### 8. 获取我的所有任务 (带Token, 预期成功)
+# @name getMyTasks
+GET http://localhost:8080/api/tasks
+# 记得替换成你的 Token!
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
