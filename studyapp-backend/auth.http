@@ -1,0 +1,61 @@
+### 1. 注册一个新用户 (预期成功)
+# @name registerSuccess
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+### -------------------------------------------
+
+### 2. 再次注册同名用户 (预期失败)
+# @name registerDuplicate
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+### -------------------------------------------
+
+### 3. 使用正确的凭证登录 (预期成功)
+# @name loginSuccess
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+
+### -------------------------------------------
+
+### 4. 使用错误的密码登录 (预期失败)
+# @name loginFailure
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "wrongpassword"
+}
+
+### -------------------------------------------
+
+### 5. 尝试访问受保护资源 (不带Token, 预期失败)
+# @name accessSecuredWithoutToken
+GET http://localhost:8080/api/v1/demo-controller
+
+
+### -------------------------------------------
+
+### 6. 访问受保护资源 (带Token, 预期成功)
+# @name accessSecuredWithToken
+GET http://localhost:8080/api/v1/demo-controller
+# 这里的 <PASTE_YOUR_TOKEN_HERE> 需要手动替换
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
