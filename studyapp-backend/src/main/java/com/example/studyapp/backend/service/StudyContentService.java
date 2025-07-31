@@ -6,9 +6,12 @@ import com.example.studyapp.backend.dto.content.SubjectDto;
 import com.example.studyapp.backend.entity.Subject;
 import com.example.studyapp.backend.entity.User;
 import com.example.studyapp.backend.repository.SubjectRepository;
+import com.example.studyapp.backend.dto.content.SubjectCreateRequest;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
