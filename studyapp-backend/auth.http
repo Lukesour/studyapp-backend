@@ -83,3 +83,26 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1M
 GET http://localhost:8080/api/tasks
 # 记得替换成你的 Token!
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+
+### -------------------------------------------
+
+### 9. 获取学习科目列表 (带Token, 预期成功)
+# @name getSubjects
+GET http://localhost:8080/api/subjects
+# 记得替换成你的 Token!
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+
+
+### -------------------------------------------
+
+### 10. 创建一个新的私有科目 (带Token, 预期成功)
+# @name createSubject
+POST http://localhost:8080/api/subjects
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+
+{
+  "name": "我的私有刑法笔记",
+  "iconName": "MenuBook"
+}
