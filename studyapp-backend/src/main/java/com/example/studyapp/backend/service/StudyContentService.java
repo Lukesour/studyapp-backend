@@ -73,9 +73,15 @@ public class StudyContentService {
         return ChapterDto.builder()
                 .id(chapter.getId())
                 .title(chapter.getTitle())
+                .description(chapter.getDescription())
+                .orderIndex(chapter.getOrderIndex())
+                .subjectId(chapter.getSubject().getId())
+                .subjectName(chapter.getSubject().getName())
                 .knowledgePoints(chapter.getKnowledgePoints().stream()
                         .map(this::convertToKnowledgePointDto)
                         .collect(Collectors.toList()))
+                .createdAt(chapter.getCreatedAt())
+                .updatedAt(chapter.getUpdatedAt())
                 .build();
     }
 
@@ -84,6 +90,13 @@ public class StudyContentService {
                 .id(kp.getId())
                 .text(kp.getText())
                 .details(kp.getDetails())
+                .orderIndex(kp.getOrderIndex())
+                .chapterId(kp.getChapter().getId())
+                .chapterTitle(kp.getChapter().getTitle())
+                .subjectId(kp.getChapter().getSubject().getId())
+                .subjectName(kp.getChapter().getSubject().getName())
+                .createdAt(kp.getCreatedAt())
+                .updatedAt(kp.getUpdatedAt())
                 .build();
     }
 }

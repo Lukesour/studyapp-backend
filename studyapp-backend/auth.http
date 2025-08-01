@@ -118,3 +118,270 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1N
   "name": "我的私有刑法笔记",
   "iconName": "MenuBook"
 }
+
+### -------------------------------------------
+
+### 12. 创建学习会话 (带Token, 预期成功)
+# @name createStudySession
+POST http://localhost:8080/api/study-sessions
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "subjectId": 16,
+  "sessionName": "学习刑法第一章",
+  "deviceId": "android-device-001"
+}
+
+### -------------------------------------------
+
+### 13. 获取用户的学习会话列表 (带Token, 预期成功)
+# @name getStudySessions
+GET http://localhost:8080/api/study-sessions
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 14. 获取用户的活动会话 (带Token, 预期成功)
+# @name getActiveSession
+GET http://localhost:8080/api/study-sessions/active
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 15. 更新学习会话 (带Token, 预期成功)
+# @name updateStudySession
+PUT http://localhost:8080/api/study-sessions/1
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "totalDurationSeconds": 1800,
+  "effectiveDurationSeconds": 1500,
+  "notes": "学习了刑法第一章的基本概念"
+}
+
+### -------------------------------------------
+
+### 16. 完成学习会话 (带Token, 预期成功)
+# @name completeStudySession
+POST http://localhost:8080/api/study-sessions/1/complete
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 17. 获取用户总学习时长 (带Token, 预期成功)
+# @name getTotalStudyTime
+GET http://localhost:8080/api/study-sessions/total-time
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 18. 获取用户今日学习时长 (带Token, 预期成功)
+# @name getTodayStudyTime
+GET http://localhost:8080/api/study-sessions/today-time
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 19. 为科目创建章节 (带Token, 预期成功)
+# @name createChapter
+POST http://localhost:8080/api/chapters/subjects/16
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "title": "第一章 刑法概述",
+  "description": "本章介绍刑法的基本概念、特征和基本原则",
+  "orderIndex": 1
+}
+
+### -------------------------------------------
+
+### 20. 获取科目的所有章节 (带Token, 预期成功)
+# @name getChaptersBySubject
+GET http://localhost:8080/api/chapters/subjects/16
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 21. 为章节创建知识点 (带Token, 预期成功)
+# @name createKnowledgePoint
+POST http://localhost:8080/api/knowledge-points/chapters/1
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "text": "什么是刑法？",
+  "details": "刑法是规定犯罪、刑事责任和刑罚的法律规范的总称。",
+  "orderIndex": 1
+}
+
+### -------------------------------------------
+
+### 22. 获取章节的所有知识点 (带Token, 预期成功)
+# @name getKnowledgePointsByChapter
+GET http://localhost:8080/api/knowledge-points/chapters/1
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 23. 获取科目的所有知识点 (带Token, 预期成功)
+# @name getKnowledgePointsBySubject
+GET http://localhost:8080/api/knowledge-points/subjects/16
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 24. 更新章节信息 (带Token, 预期成功)
+# @name updateChapter
+PUT http://localhost:8080/api/chapters/1
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "title": "第一章 刑法概述（已更新）",
+  "description": "本章介绍刑法的基本概念、特征和基本原则，包括刑法的定义、特征、基本原则等内容。",
+  "orderIndex": 1
+}
+
+### -------------------------------------------
+
+### 25. 更新知识点信息 (带Token, 预期成功)
+# @name updateKnowledgePoint
+PUT http://localhost:8080/api/knowledge-points/1
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "text": "什么是刑法？（已更新）",
+  "details": "刑法是规定犯罪、刑事责任和刑罚的法律规范的总称。刑法具有强制性、严厉性和最后手段性等特征。",
+  "orderIndex": 1
+}
+
+### -------------------------------------------
+
+### 26. 创建学习任务 (带Token, 预期成功)
+# @name createTask
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "title": "复习刑法第一章",
+  "description": "重点复习刑法的基本概念和特征",
+  "subjectId": 16,
+  "chapterId": 7,
+  "dueDate": "2025-08-05T10:00:00+08:00",
+  "priority": 2,
+  "taskType": "REVIEW"
+}
+
+### -------------------------------------------
+
+### 27. 获取所有任务 (带Token, 预期成功)
+# @name getTasks
+GET http://localhost:8080/api/tasks
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 28. 创建练习任务 (带Token, 预期成功)
+# @name createPracticeTask
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "title": "练习刑法选择题",
+  "description": "完成刑法第一章的选择题练习",
+  "subjectId": 16,
+  "dueDate": "2025-08-03T18:00:00+08:00",
+  "priority": 3,
+  "taskType": "PRACTICE"
+}
+
+### -------------------------------------------
+
+### 29. 更新任务状态 (带Token, 预期成功)
+# @name updateTask
+PUT http://localhost:8080/api/tasks/1
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "status": "IN_PROGRESS",
+  "description": "正在复习刑法第一章，重点理解刑法的基本概念和特征"
+}
+
+### -------------------------------------------
+
+### 30. 获取任务详情 (带Token, 预期成功)
+# @name getTaskById
+GET http://localhost:8080/api/tasks/1
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 31. 获取待处理任务 (带Token, 预期成功)
+# @name getPendingTasks
+GET http://localhost:8080/api/tasks/status/PENDING
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 32. 获取进行中任务 (带Token, 预期成功)
+# @name getInProgressTasks
+GET http://localhost:8080/api/tasks/status/IN_PROGRESS
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 33. 获取复习类型任务 (带Token, 预期成功)
+# @name getReviewTasks
+GET http://localhost:8080/api/tasks/type/REVIEW
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 34. 获取即将到期任务 (带Token, 预期成功)
+# @name getUpcomingTasks
+GET http://localhost:8080/api/tasks/upcoming
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+### -------------------------------------------
+
+### 35. 完成任务 (带Token, 预期成功)
+# @name completeTask
+PUT http://localhost:8080/api/tasks/1
+Content-Type: application/json
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
+
+{
+  "status": "COMPLETED",
+  "description": "已完成刑法第一章的复习，掌握了基本概念和特征"
+}

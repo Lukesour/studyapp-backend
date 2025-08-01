@@ -1,9 +1,11 @@
 package com.example.studyapp.backend.controller;
 
 import com.example.studyapp.backend.dto.task.TaskCreateRequest;
-import com.example.studyapp.backend.dto.task.TaskResponse;
-import com.example.studyapp.backend.entity.StudyTask;
+import com.example.studyapp.backend.dto.task.TaskDto;
+import com.example.studyapp.backend.dto.task.TaskUpdateRequest;
 import com.example.studyapp.backend.entity.User;
+import com.example.studyapp.backend.entity.enums.TaskStatus;
+import com.example.studyapp.backend.entity.enums.TaskType;
 import com.example.studyapp.backend.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +13,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/tasks") // 所有与任务相关的API都在 /api/tasks 路径下
+@RequestMapping("/api/tasks")
 @RequiredArgsConstructor
 public class TaskController {
 
@@ -22,42 +23,103 @@ public class TaskController {
 
     /**
      * 获取当前登录用户的所有任务
-     * @param currentUser Spring Security 会自动注入当前登录的用户对象
-     * @return 任务列表的响应
      */
     @GetMapping
-    public ResponseEntity<List<TaskResponse>> getMyTasks(@AuthenticationPrincipal User currentUser) {
-        // 1. 调用 Service，传入当前用户信息，获取任务实体列表
-        List<StudyTask> tasks = taskService.getTasksForUser(currentUser);
-
-        // 2. 将实体列表转换为 DTO 列表
-        List<TaskResponse> taskResponses = tasks.stream()
-                .map(TaskResponse::fromEntity) // 使用我们在DTO中创建的静态方法
-                .collect(Collectors.toList());
-
-        // 3. 返回 200 OK 和任务列表
-        return ResponseEntity.ok(taskResponses);
+    public ResponseEntity<List<TaskDto>> getMyTasks(@AuthenticationPrincipal User currentUser) {
+        List<TaskDto> tasks = taskService.getTasksForUser(currentUser);
+        return ResponseEntity.ok(tasks);
     }
 
     /**
      * 为当前登录用户创建一个新任务
-     * @param request 创建任务的请求体
-     * @param currentUser Spring Security 自动注入的当前用户
-     * @return 创建成功后的任务信息
      */
     @PostMapping
-    public ResponseEntity<TaskResponse> createTask(
+    public ResponseEntity<TaskDto> createTask(
             @RequestBody TaskCreateRequest request,
             @AuthenticationPrincipal User currentUser
     ) {
-        // 1. 调用 Service 创建任务，并传入当前用户信息
-        StudyTask createdTask = taskService.createTask(request, currentUser);
+        TaskDto createdTask = taskService.createTask(request, currentUser);
+        return ResponseEntity.status(201).body(createdTask);
+    }
 
-        // 2. 将创建成功的实体转换为 DTO
-        TaskResponse response = TaskResponse.fromEntity(createdTask);
+    /**
+     * 更新任务信息
+     */
+    @PutMapping("/{taskId}")
+    public ResponseEntity<TaskDto> updateTask(
+            @PathVariable Long taskId,
+            @RequestBody TaskUpdateRequest request,
+            @AuthenticationPrincipal User currentUser
+    ) {
+        TaskDto updatedTask = taskService.updateTask(taskId, request, currentUser);
+        return ResponseEntity.ok(updatedTask);
+    }
 
-        // 3. 返回 201 Created 状态码和新创建的任务信息
-        // （201 是 RESTful API 中表示资源创建成功的标准状态码）
-        return ResponseEntity.status(201).body(response);
+    /**
+     * 删除任务
+     */
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Void> deleteTask(
+            @PathVariable Long taskId,
+            @AuthenticationPrincipal User currentUser
+    ) {
+        taskService.deleteTask(taskId, currentUser);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * 获取任务详情
+     */
+    @GetMapping("/{taskId}")
+    public ResponseEntity<TaskDto> getTaskById(
+            @PathVariable Long taskId,
+            @AuthenticationPrincipal User currentUser
+    ) {
+        TaskDto task = taskService.getTaskById(taskId, currentUser);
+        return ResponseEntity.ok(task);
+    }
+
+    /**
+     * 获取用户指定状态的任务
+     */
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<TaskDto>> getTasksByStatus(
+            @PathVariable String status,
+            @AuthenticationPrincipal User currentUser
+    ) {
+        TaskStatus taskStatus = TaskStatus.valueOf(status.toUpperCase());
+        List<TaskDto> tasks = taskService.getTasksByStatus(currentUser, taskStatus);
+        return ResponseEntity.ok(tasks);
+    }
+
+    /**
+     * 获取用户指定类型的任务
+     */
+    @GetMapping("/type/{taskType}")
+    public ResponseEntity<List<TaskDto>> getTasksByType(
+            @PathVariable String taskType,
+            @AuthenticationPrincipal User currentUser
+    ) {
+        TaskType type = TaskType.valueOf(taskType.toUpperCase());
+        List<TaskDto> tasks = taskService.getTasksByType(currentUser, type);
+        return ResponseEntity.ok(tasks);
+    }
+
+    /**
+     * 获取用户即将到期的任务（3天内）
+     */
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<TaskDto>> getUpcomingTasks(@AuthenticationPrincipal User currentUser) {
+        List<TaskDto> tasks = taskService.getUpcomingTasks(currentUser);
+        return ResponseEntity.ok(tasks);
+    }
+
+    /**
+     * 获取用户已过期的任务
+     */
+    @GetMapping("/overdue")
+    public ResponseEntity<List<TaskDto>> getOverdueTasks(@AuthenticationPrincipal User currentUser) {
+        List<TaskDto> tasks = taskService.getOverdueTasks(currentUser);
+        return ResponseEntity.ok(tasks);
     }
 }

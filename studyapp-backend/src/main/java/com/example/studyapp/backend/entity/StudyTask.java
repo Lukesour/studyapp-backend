@@ -1,14 +1,14 @@
 package com.example.studyapp.backend.entity;
 
-import com.example.studyapp.backend.entity.enums.TimeInterval;
+import com.example.studyapp.backend.entity.enums.TaskStatus;
 import com.example.studyapp.backend.entity.enums.TaskType;
-import com.example.studyapp.backend.entity.enums.TimingMode;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
 
@@ -24,49 +24,54 @@ public class StudyTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 关键：建立与User的多对一关系
-    // 多个任务可以属于一个用户
-    @ManyToOne(fetch = FetchType.LAZY) // LAZY表示延迟加载，性能更好
-    @JoinColumn(name = "user_id", nullable = false) // 外键列
+    // 任务所属用户
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(nullable = false)
     private String title;
 
-    @Enumerated(EnumType.STRING) // 将枚举类型以字符串形式存储到数据库
-    @Column(name = "task_type", nullable = false)
-    private TaskType type;
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    // 关联的科目（可选）
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
+
+    // 关联的章节（可选）
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chapter_id")
+    private Chapter chapter;
+
+    // 关联的知识点（可选）
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "knowledge_point_id")
+    private KnowledgePoint knowledgePoint;
+
+    @Column(name = "due_date")
+    private OffsetDateTime dueDate;
+
+    @Column(name = "priority")
+    private Integer priority; // 1-低，2-中，3-高
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "time_interval", nullable = false)
-    private TimeInterval timeInterval;
+    @Column(name = "task_type")
+    private TaskType taskType;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "timing_mode", nullable = false)
-    private TimingMode timingMode;
-
-    @Column(name = "target_minutes")
-    private int targetMinutes;
-
-    @Column(name = "completed_minutes")
-    private int completedMinutes = 0; // 默认为0
-
-    @Column(name = "target_count")
-    private int targetCount;
-
-    @Column(name = "completed_count")
-    private int completedCount = 0; // 默认为0
-
-    @Column(name = "focus_count")
-    private int focusCount = 0; // 默认为0
-
-    @Column(name = "is_completed")
-    private boolean isCompleted = false; // 默认为false
+    @Column(name = "status", nullable = false)
+    private TaskStatus status = TaskStatus.PENDING;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
-    @Column(name = "completion_timestamp")
-    private OffsetDateTime completionTimestamp;
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
+
+    @Column(name = "completed_at")
+    private OffsetDateTime completedAt;
 }
