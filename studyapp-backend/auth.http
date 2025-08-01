@@ -57,8 +57,8 @@ GET http://localhost:8080/api/v1/demo-controller
 ### 6. 访问受保护资源 (带Token, 预期成功)
 # @name accessSecuredWithToken
 GET http://localhost:8080/api/v1/demo-controller
-# 这里的 <PASTE_YOUR_TOKEN_HERE> 需要手动替换
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+# 记得替换成你的 Token!
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
 
 ### -------------------------------------------
 ### 7. 创建一个新任务 (带Token, 预期成功)
@@ -66,7 +66,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1M
 POST http://localhost:8080/api/tasks
 Content-Type: application/json
 # 记得替换成你的 Token!
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
 
 {
   "title": "学习 Spring Boot",
@@ -82,7 +82,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1M
 # @name getMyTasks
 GET http://localhost:8080/api/tasks
 # 记得替换成你的 Token!
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+Authorization: Bearer <PASTE_YOUR_TOKEN_HERE>
 
 ### -------------------------------------------
 
@@ -90,17 +90,29 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1M
 # @name getSubjects
 GET http://localhost:8080/api/subjects
 # 记得替换成你的 Token!
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1NDAxMjk0NSwiZXhwIjoxNzU0MDk5MzQ1fQ.CIjfWOampymhTPnZMMeB8QelXjHcSSTWU3N4Sh7-LVfVxdy4Sozmcd_SHGalxt_BB1wLcnfst7r4tdoZnNuGsw
 
 
 ### -------------------------------------------
 
-### 10. 创建一个新的私有科目 (带Token, 预期成功)
+### 10. 重新登录获取新的Token (如果之前的token过期了)
+# @name loginForNewToken
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+### -------------------------------------------
+
+### 11. 创建一个新的私有科目 (使用新Token, 预期成功)
 # @name createSubject
 POST http://localhost:8080/api/subjects
 Content-Type: application/json
-# 记得替换成你的 Token!
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1Mzg4MjQ2NywiZXhwIjoxNzUzOTY4ODY3fQ.gI2d6Ptkn5y143xlOdWg1wnUx7X_nnczKIjmR3NRNQCzxQW5zl3AIYDTVPdUvmaqudUA1ZeI3Jc9YxzbraxKsQ
+# 记得替换成你的新 Token!
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc1NDAxMjk0NSwiZXhwIjoxNzU0MDk5MzQ1fQ.CIjfWOampymhTPnZMMeB8QelXjHcSSTWU3N4Sh7-LVfVxdy4Sozmcd_SHGalxt_BB1wLcnfst7r4tdoZnNuGsw
 
 {
   "name": "我的私有刑法笔记",
